@@ -1,26 +1,39 @@
-# Convert DNA maps to SVG files for BenchBaze
+# BenchBaze - DNA map to SVG converter
 
-Server-side renders a DNA map to an SVG file using the CircularView component from [Teselagen's Open Vector Editor (OVE)](https://github.com/TeselaGen/tg-oss/tree/master/packages/ove).
+This application allows server-side conversion of a DNA map to an SVG file using the CircularView component from [Teselagen's Open Vector Editor (OVE)](https://github.com/TeselaGen/tg-oss/tree/master/packages/ove). It is integrated in [BenchBaze](https://github.com/imbforge/benchbaze).
 
 An Express server renders the `CircularView` React component to an HTML string via `ReactDOMServer.renderToString`, extracts the `<svg>` element, and serves it as a downloadable file.
 
 ## Setup
 
-1. `cd` into this directory
-2. Run `yarn install`
-3. Run `yarn build`
-4. Run `yarn start`
+1. Install dependencies:
 
-The server listens on port `3000` by default (override with the `PORT` environment variable).
+```bash
+yarn install
+```
+
+2. Build the app
+
+```bash
+yarn build
+```
+
+3. Optionally, start the development server for testing:
+
+```bash
+yarn start
+```
+
+The server listens on port `3000` by default.
 
 ## Usage
 
 Send a GET request with the following query parameters:
 
-| Parameter | Required | Description |
-|---|---|---|
-| `path` | Yes | Path to the DNA map file to render (`.gbk`, `.gb`, or `.dna`) |
-| `title` | No | Name used for the plasmid and the downloaded filename (defaults to `plasmid`) |
+| Parameter | Required | Description                                                                   |
+|-----------|----------|-------------------------------------------------------------------------------|
+| `path`    | Yes      | Path to the DNA map file to render (`.gbk`, `.gb`, or `.dna`)                 |
+| `title`   | No       | Name used for the plasmid and the downloaded filename (defaults to `plasmid`) |
 
 **Supported file formats:** GenBank (`.gb`, `.gbk`) and SnapGene (`.dna`).
 
@@ -34,11 +47,11 @@ The response is an SVG file downloaded as `<title>.html`.
 
 ### Error responses
 
-| Status | Cause |
-|---|---|
-| 400 | `path` parameter missing or file extension not supported |
-| 404 | File not found at the given path |
-| 500 | Parse failure or render error (response body contains the specific error message) |
+| Status | Cause                                                                             |
+|--------|-----------------------------------------------------------------------------------|
+| 400    | `path` parameter missing or file extension not supported                          |
+| 404    | File not found at the given path                                                  |
+| 500    | Parse failure or render error (response body contains the specific error message) |
 
 ## Running as a service
 
